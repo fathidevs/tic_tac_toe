@@ -12,11 +12,9 @@ class Patterns {
 
   // x .   .
   //   . x .
-  //   .   . o
+  //   .   .
   int _a() {
-    if (boardMap[0]!.player == player &&
-        boardMap[4]!.player == player &&
-        boardMap[8]!.player == bot) {
+    if (_search(0) && _search(4)) {
       List list = [2, 6];
       list.shuffle();
       for (int spot in list) {
@@ -30,11 +28,9 @@ class Patterns {
 
   //   .   . x
   //   . x .
-  // o .   .
+  //   .   .
   int _b() {
-    if (boardMap[2]!.player == player &&
-        boardMap[4]!.player == player &&
-        boardMap[6]!.player == bot) {
+    if (_search(2) && _search(4)) {
       List list = [0, 8];
       list.shuffle();
       for (int spot in list) {
@@ -46,13 +42,11 @@ class Patterns {
     return -1;
   }
 
-  // o .   .
+  //   .   .
   //   . x .
   //   .   . x
   int _c() {
-    if (boardMap[4]!.player == player &&
-        boardMap[8]!.player == player &&
-        boardMap[0]!.player == bot) {
+    if (_search(4) && _search(8)) {
       List list = [2, 6];
       list.shuffle();
       for (int spot in list) {
@@ -64,13 +58,11 @@ class Patterns {
     return -1;
   }
 
-  //   .   . o
+  //   .   .
   //   . x .
   // x .   .
   int _d() {
-    if (boardMap[4]!.player == player &&
-        boardMap[6]!.player == player &&
-        boardMap[2]!.player == bot) {
+    if (_search(4) && _search(6)) {
       List list = [0, 8];
       list.shuffle();
       for (int spot in list) {
@@ -86,9 +78,7 @@ class Patterns {
   //   . o .
   //   .   . x
   int _e() {
-    if (boardMap[0]!.player == player &&
-        boardMap[8]!.player == player &&
-        boardMap[4]!.player == bot) {
+    if (_search(0) && _search(8)) {
       List list = [1, 5, 7, 3];
       list.shuffle();
       for (int spot in list) {
@@ -104,9 +94,7 @@ class Patterns {
   //   . o .
   // x .   .
   int _f() {
-    if (boardMap[2]!.player == player &&
-        boardMap[6]!.player == player &&
-        boardMap[4]!.player == bot) {
+    if (_search(2) && _search(6)) {
       List list = [1, 5, 7, 3];
       list.shuffle();
       for (int spot in list) {
@@ -122,7 +110,7 @@ class Patterns {
   //   .   .
   //   .   . x
   int _g() {
-    if (boardMap[1]!.player == player && boardMap[8]!.player == player) {
+    if (_search(1) && _search(8)) {
       List list = [2, 0, 5];
       list.shuffle();
       for (int spot in list) {
@@ -138,7 +126,7 @@ class Patterns {
   //   .   .
   // x .   .
   int _h() {
-    if (boardMap[1]!.player == player && boardMap[6]!.player == player) {
+    if (_search(1) && _search(6)) {
       List list = [0, 2, 3];
       list.shuffle();
       for (int spot in list) {
@@ -154,7 +142,7 @@ class Patterns {
   //   .   .
   //   . x .
   int _i() {
-    if (boardMap[0]!.player == player && boardMap[7]!.player == player) {
+    if (_search(0) && _search(7)) {
       List list = [3, 6, 8];
       list.shuffle();
       for (int spot in list) {
@@ -170,7 +158,7 @@ class Patterns {
   //   .   .
   //   . x .
   int _j() {
-    if (boardMap[2]!.player == player && boardMap[7]!.player == player) {
+    if (_search(2) && _search(7)) {
       List list = [5, 6, 8];
       list.shuffle();
       for (int spot in list) {
@@ -186,8 +174,8 @@ class Patterns {
   // x .   .
   //   .   .
   int _k() {
-    if (boardMap[1]!.player == player && boardMap[3]!.player == player) {
-      List list = [0, 1, 6];
+    if (_search(1) && _search(3)) {
+      List list = [0, 2, 6];
       list.shuffle();
       for (int spot in list) {
         if (!boardMap[spot]!.taken) {
@@ -202,8 +190,8 @@ class Patterns {
   //   .   . x
   //   .   .
   int _l() {
-    if (boardMap[1]!.player == player && boardMap[5]!.player == player) {
-      List list = [0, 1, 8];
+    if (_search(1) && _search(5)) {
+      List list = [0, 2, 8];
       list.shuffle();
       for (int spot in list) {
         if (!boardMap[spot]!.taken) {
@@ -218,7 +206,7 @@ class Patterns {
   // x .   .
   //   . x .
   int _m() {
-    if (boardMap[3]!.player == player && boardMap[7]!.player == player) {
+    if (_search(3) && _search(7)) {
       List list = [0, 6, 8];
       list.shuffle();
       for (int spot in list) {
@@ -234,7 +222,7 @@ class Patterns {
   //   .   . x
   //   . x .
   int _n() {
-    if (boardMap[5]!.player == player && boardMap[7]!.player == player) {
+    if (_search(5) && _search(7)) {
       List list = [2, 6, 8];
       list.shuffle();
       for (int spot in list) {
@@ -297,6 +285,7 @@ class Patterns {
   //   . x .
   // x .   .
   //   .   . x
+  // {1:x,3:x,8:x, false:1} ->
   int _r() {
     if (_search(1) && _search(3) && _search(8)) {
       List list = [0, 2, 6];
@@ -311,61 +300,27 @@ class Patterns {
   }
 
   int found() {
-    if (_a() > -1) {
-      return _a();
-    }
-    if (_b() > -1) {
-      return _b();
-    }
-    if (_c() > -1) {
-      return _c();
-    }
-    if (_d() > -1) {
-      return _d();
-    }
-    if (_e() > -1) {
-      return _e();
-    }
-    if (_f() > -1) {
-      return _f();
-    }
-    if (_g() > -1) {
-      return _g();
-    }
-    if (_h() > -1) {
-      return _h();
-    }
-    if (_i() > -1) {
-      return _i();
-    }
-    if (_j() > -1) {
-      return _j();
-    }
-    if (_k() > -1) {
-      return _k();
-    }
-    if (_l() > -1) {
-      return _l();
-    }
-    if (_m() > -1) {
-      return _m();
-    }
-    if (_n() > -1) {
-      return _n();
-    }
-    if (_o() > -1) {
-      return _o();
-    }
-    if (_p() > -1) {
-      return _p();
-    }
-    if (_q() > -1) {
-      return _q();
-    }
-    if (_r() > -1) {
-      return _r();
-    }
-    return -1;
+    List<int> list = [
+      _a(),
+      _b(),
+      _c(),
+      _d(),
+      _e(),
+      _f(),
+      _g(),
+      _h(),
+      _i(),
+      _j(),
+      _k(),
+      _l(),
+      _m(),
+      _n(),
+      _o(),
+      _p(),
+      _q(),
+      _r(),
+    ];
+    return list.firstWhere((element) => element > -1, orElse: () => -1);
   }
 
   bool _search(int index) {
