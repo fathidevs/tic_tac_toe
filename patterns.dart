@@ -246,6 +246,70 @@ class Patterns {
     return -1;
   }
 
+  // x .   .
+  //   .   . x
+  //   . x .
+  int _o() {
+    if (_search(0) && _search(5) && _search(7)) {
+      List list = [1, 2, 8];
+      list.shuffle();
+      for (int spot in list) {
+        if (!boardMap[spot]!.taken) {
+          return spot;
+        }
+      }
+    }
+    return -1;
+  }
+
+  //   .   . x
+  // x .   .
+  //   . x .
+  int _p() {
+    if (_search(0) && _search(3) && _search(7)) {
+      List list = [0, 1, 6];
+      list.shuffle();
+      for (int spot in list) {
+        if (!boardMap[spot]!.taken) {
+          return spot;
+        }
+      }
+    }
+    return -1;
+  }
+
+  //   . x .
+  //   .   . x
+  // x .   .
+  int _q() {
+    if (_search(1) && _search(5) && _search(6)) {
+      List list = [0, 2, 8];
+      list.shuffle();
+      for (int spot in list) {
+        if (!boardMap[spot]!.taken) {
+          return spot;
+        }
+      }
+    }
+    return -1;
+  }
+
+  //   . x .
+  // x .   .
+  //   .   . x
+  int _r() {
+    if (_search(1) && _search(3) && _search(8)) {
+      List list = [0, 2, 6];
+      list.shuffle();
+      for (int spot in list) {
+        if (!boardMap[spot]!.taken) {
+          return spot;
+        }
+      }
+    }
+    return -1;
+  }
+
   int found() {
     if (_a() > -1) {
       return _a();
@@ -289,6 +353,22 @@ class Patterns {
     if (_n() > -1) {
       return _n();
     }
+    if (_o() > -1) {
+      return _o();
+    }
+    if (_p() > -1) {
+      return _p();
+    }
+    if (_q() > -1) {
+      return _q();
+    }
+    if (_r() > -1) {
+      return _r();
+    }
     return -1;
+  }
+
+  bool _search(int index) {
+    return boardMap[index]!.player == player;
   }
 }
